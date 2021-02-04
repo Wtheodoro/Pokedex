@@ -3,6 +3,8 @@ import api from '../../services/api'
 
 import { PokemonInfo } from '../../types/PokemonInfo'
 
+import '../../styles/dex.css'
+import Tilt from 'react-parallax-tilt'
 
 
 function Dex() {
@@ -11,8 +13,10 @@ function Dex() {
   const [pokemon, setPokemon] = useState<PokemonInfo>()
 
   const getAPI = () => {
-    api.get(`/${pokeName}`)
-    .then(response => setPokemon(response.data))
+    if (pokeName !== undefined) {
+      api.get(`/${pokeName}`)
+        .then(response => setPokemon(response.data))
+    } 
   }
 
   console.log(pokemon)
@@ -25,20 +29,27 @@ function Dex() {
             <button onClick={getAPI}>Search</button>
           </div>
 
-          <>
-      
-            <img src={pokemon?.sprites.front_default} alt=""/>
-            <h2>{pokemon?.name}</h2>
-            <p>ID: {pokemon?.id}</p>
+          <Tilt className="container">
+            <div className="box">
+            {pokemon &&
+            <>
+            <h2 className="name">{pokemon?.name}</h2>
+            <div className="circle"></div>
+            <img src={pokemon?.sprites.front_default} alt={pokemon.name} className="sprite"/>
+            <p className="id"># {pokemon?.id}</p>            
+            </>
+            }
+            </div>
+          </Tilt>
+            <div className="box-stat">
             <p>Weight: {pokemon?.weight}</p>
-
             {
               pokemon?.stats.map(i => (
                 <p>{i.stat.name}, {i.base_stat}</p>
               ))
             }
-            
-        </>
+          </div>
+        
     </>
   );
 }
