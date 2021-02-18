@@ -23,7 +23,7 @@ function Dex() {
 
   return (
         <>
-          <div>
+          <div className="top">
             <h1>Pokedex</h1>
             <input type="text" placeholder="name or ID" onChange={(event) => setPokeName(event.target.value)}/>
             <button onClick={getAPI}>Search</button>
@@ -40,16 +40,15 @@ function Dex() {
             </>
             }
             </div>
-          </Tilt>
             <div className="box-stat">
             <p>Weight: {pokemon?.weight}</p>
             {
               pokemon?.stats.map(i => (
-                <p>{i.stat.name}, {i.base_stat}</p>
+                <p>{i.stat.name}: {i.base_stat}</p>
               ))
             }
           </div>
-        
+          </Tilt>     
     </>
   );
 }
